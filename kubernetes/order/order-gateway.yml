@@ -1,0 +1,38 @@
+# Gateway in the ecommerce-app namespace
+apiVersion: networking.istio.io/v1beta1
+kind: Gateway
+metadata:
+  name: order-gateway  # Name of the Istio Gateway
+  namespace: ecommerce-app  # Define the namespace
+spec:
+  selector:
+    istio: ingressgateway  # Use the default Istio Ingress Gateway
+  servers:
+  - port:
+      number: 80  # Define the port
+      name: http
+      protocol: HTTP
+    hosts:
+    - "*"  # Accept traffic for any host
+
+---
+# VirtualService in the ecommerce-app namespace
+apiVersion: networking.istio.io/v1beta1
+kind: VirtualService
+metadata:
+  name: order  # Name of the Istio VirtualService
+  namespace: ecommerce-app  # Define the namespace
+spec:
+  hosts:
+  - "*"  # Apply the VirtualService to any host
+  gateways:
+  - order-gateway  # Connect VirtualService with the order-gateway
+  http:
+  - match:
+    - uri:
+        exact: /order  # Match the exact path /order
+    route:
+    - destination:
+        host: order-service.ecommerce-app.svc.cluster.local  # Set the service
+        port:
+          number: 3000  # Set the port

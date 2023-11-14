@@ -1,0 +1,6 @@
+Order-Service-Image
+https://github.com/users/mueiya/packages/container/package/dicoding-order-service
+ghcr.io/mueiya/dicoding-order-service:latest
+Shipping-Service-Image
+https://github.com/users/mueiya/packages/container/package/dicoding-shipping-service
+ghcr.io/mueiya/dicoding-shipping-service:latest
