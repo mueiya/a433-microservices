@@ -1,0 +1,40 @@
+#version
+apiVersion: apps/v1
+#set resource type as service
+kind: Deployment
+#add metadata
+metadata:
+  #set deployment name
+  name: order-deployment
+  #(optional) if using the namespace
+  namespace: ecommerce-app 
+  #labeling
+  labels:
+    app: order
+spec:
+  #set deployment replica
+  replicas: 1
+  selector:
+    #select label that match
+    matchLabels:
+      app: order
+  template:
+    metadata:
+      #labeling deployment
+      labels:
+        app: order
+    spec:
+      containers:
+          #name the container
+        - name: order-service
+          #pull the image from github package
+          image: ghcr.io/mueiya/dicoding-order-service:latest
+          ports:
+            #exposed port for container
+            - containerPort: 3000
+          env:
+            - name: PORT
+              value: "3000"
+            - name: AMQP_URL
+              #set as amqp://<username>.<password>@rabbitmq:5672, 
+              value: "amqp://mueiya:secretpassword@my-rabbitmq.default.svc.cluster.local:5672"

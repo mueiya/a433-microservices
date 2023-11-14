@@ -1,0 +1,11 @@
+#version
+apiVersion: v1
+#set type as namespace
+kind: Namespace
+#add metadata
+metadata:
+  #set the name
+  name: ecommerce-app
+  #add labels
+  labels:
+    app: ecommerce-app
